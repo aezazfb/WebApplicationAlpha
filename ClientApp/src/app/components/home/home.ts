@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Vehicle, VehicleService } from '../../services/vehicle.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,9 @@ export class Home implements OnInit {
     year: new Date().getFullYear()
   };
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -27,20 +29,40 @@ export class Home implements OnInit {
 
   loadVehicles() {
     this.vehicleService.getVehicles()
-      .subscribe(data => this.vehicles = data);
+      .subscribe({
+        next: data => {
+          this.vehicles = [...data];
+          this.cdr.detectChanges();
+        },
+        error: err => console.log(err)
+      });
   }
 
+
   addVehicle() {
-    if (!this.newVehicle.make || !this.newVehicle.model) return;
+    console.log(this.newVehicle);
+    if (!this.newVehicle.make || !this.newVehicle.model) {
+      alert("Input error, check values!");
+    };
+    // debugger
+
 
     this.vehicleService.addVehicle(this.newVehicle)
-      .subscribe(() => {
-        this.loadVehicles();
-        this.newVehicle = {
-          make: '',
-          model: '',
-          year: new Date().getFullYear()
-        };
+      .subscribe({
+        next: res => {
+          console.log("API hitt post");
+          setTimeout(() => {
+            this.loadVehicles();
+            this.newVehicle = {
+              make: '',
+              model: '',
+              year: new Date().getFullYear()
+            };
+          }, 400);
+        },
+        error: (err) => {
+          console.log(err)
+        }
       });
   }
 }

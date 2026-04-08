@@ -19,10 +19,11 @@
 
 <h3>Add Vehicle</h3>
 
-<form (ngSubmit)="addVehicle()">
-    <input [(ngModel)]="newVehicle.make" name="make" placeholder="Make" required />
-    <input [(ngModel)]="newVehicle.model" name="model" placeholder="Model" required />
+<form>
+    <input [(ngModel)]="newVehicle.make" maxlength="14" name="make" placeholder="Make" required />
+    <input [(ngModel)]="newVehicle.model" maxlength="20" name="model" placeholder="Model" required />
     <input [(ngModel)]="newVehicle.year" name="year" type="number" />
 
-    <button type="submit">Add</button>
+    <button type="submit" [disabled]="newVehicle.make == '' || newVehicle.model == ''"
+        (click)="addVehicle()">Add</button>
 </form>
