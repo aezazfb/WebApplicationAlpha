@@ -1,8 +1,8 @@
 ## Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)  
-- [Node.js 18+](https://nodejs.org/en/)  
-- [Angular CLI 16+](https://angular.io/cli)  
+- [Node.js 24.14.1](https://nodejs.org/en/)  
+- [Angular CLI 21.2.7](https://angular.io/cli)  
 
 
 ## Getting Started
